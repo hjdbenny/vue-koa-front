@@ -3,7 +3,7 @@
 		<img @click="editPersonal()" :src="$store.state.userInfo.avatar" class="avatar">
 		<div class="nickname">{{$store.state.userInfo.nickname}}</div>
 		<div style="flex:1"></div>
-		<el-button @click="writeArticle" style="align-self: flex-end;" type="primary" round>写文章</el-button>
+		<el-button id="writeBtn" @click="writeArticle" style="align-self: flex-end;" type="primary" round>写文章</el-button>
 	</div>
 </template>
 <script>

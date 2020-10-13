@@ -9,6 +9,7 @@ export default new Vuex.Store({
         isHttpLoading: false, // 请求时的loading状态
         userId: null,
         userInfo: null,
+        curWritingArticleId: null, //当前正在编写的文章id
     },
     mutations: {
         // 切换请求时的loading状态
@@ -20,6 +21,9 @@ export default new Vuex.Store({
         },
         updateUserInfo(state, msg) {
             state.userInfo[msg.key] = msg.value;
+        },
+        setCurWritingArticleId(state, msg) {
+            state.curWritingArticleId = msg;
         },
     },
     actions: {

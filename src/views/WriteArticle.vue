@@ -1,5 +1,9 @@
 <template>
 	<div class="writer-wrapper">
+		<div class="btn-groups">
+			<el-button @click="backToList" type="primary" round>返回文章列表</el-button>
+			<el-button @click="saveArticle" type="primary" round>保存</el-button>
+		</div>
 		<div class="field">
 			<div class="title">标题</div>
 			<el-input v-model="title" placeholder="请输入标题"></el-input>
@@ -35,12 +39,49 @@ export default {
 			this.highlighthandle()
 		},
 		saveArticle() {
-			console.log(this.html)
+			let params = {
+				id: null,
+				title: this.title,
+				content: this.content,
+				html: this.html,
+				author: this.$store.state.userInfo.nickname
+			}
+			if (this.$store.state.curWritingArticleId) {
+				params.id = this.$store.state.curWritingArticleId
+				this.updateArticle(params)
+			} else {
+				this.addArticle(params)
+			}
+		},
+		// 根据id获取文章
+		getArticle() {
+			this.$api.article
+				.getArticle({ id: this.$store.state.curWritingArticleId })
+				.then(res => {
+					this.title = res.data.title
+					this.content = res.data.content
+					this.html = res.data.html
+					this.$store.commit('setCurWritingArticleId', res.data.id)
+				})
+		},
+		// 更新文章
+		updateArticle(params) {
+			this.$api.article.updateArticle(params).then(() => {
+				this.$message.success('更新成功')
+			})
+		},
+		// 新增文章
+		addArticle(params) {
+			this.$api.article.addArticle(params).then(res => {
+				this.$store.commit('setCurWritingArticleId', res.data)
+				this.$message.success('新增成功')
+				this.getArticle()
+			})
 		},
 		// 将图片上传到服务器，返回地址替换到md中
 		uploadImage(pos, $file) {
 			const formData = new FormData()
-			formData.append('files', $file)
+			formData.append('file', $file)
 			this.$api.common.uploadImage(formData).then(res => {
 				this.$refs.md.$img2Url(pos, res.data)
 			})
@@ -51,9 +92,23 @@ export default {
 			highlight.forEach(block => {
 				hljs.highlightBlock(block)
 			})
+		},
+		backToList() {
+			this.$router.push({ path: '/home' })
+			this.$store.commit('setCurWritingArticleId', null)
 		}
 	},
-	mounted() {}
+	mounted() {
+		let writeBtn = document.getElementById('writeBtn')
+		writeBtn.style.display = 'none'
+		if (this.$store.state.curWritingArticleId) {
+			this.getArticle()
+		}
+	},
+	beforeDestroy() {
+		let writeBtn = document.getElementById('writeBtn')
+		writeBtn.style.display = 'block'
+	}
 }
 </script>
 
@@ -63,6 +118,13 @@ export default {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+
+	.btn-groups {
+		position: absolute;
+		right: 0;
+		top: -100px;
+		display: flex;
+	}
 
 	.field {
 		width: 100%;

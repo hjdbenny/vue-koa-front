@@ -41,6 +41,22 @@ const routes = [
                     title: "写文章",
                 },
             },
+            {
+                path: "/",
+                name: "ArtcileList",
+                component: () => import("../views/ArtcileList.vue"),
+                meta: {
+                    title: "文章列表",
+                },
+            },
+            {
+                path: "read_article",
+                name: "ReadArticle",
+                component: () => import("../views/ReadArticle.vue"),
+                meta: {
+                    title: "阅读文章",
+                },
+            },
         ],
     },
 ];

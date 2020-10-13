@@ -4,7 +4,7 @@ const common = {
     // 上传图片
     uploadImage(params) {
         return axios.post(
-            `${process.env.VUE_APP_SERVER_URL}/api/uploadImage`,
+            `${process.env.VUE_APP_SERVER_URL}/api/common/uploadImage`,
             params
         );
     },
