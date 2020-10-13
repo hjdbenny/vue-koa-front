@@ -62,7 +62,14 @@ const routes = [
 ];
 
 const router = new VueRouter({
-    mode: "history",
+    // github搭建的单页面不支持history模式
+    // mode: "history",
+    // history 模式时，打包后ngxix需配置：
+    // location / {
+    //     root   html;
+    //     index  index.html index.htm;
+    //     try_files $uri $uri/ /index.html;
+    // }
     base: process.env.BASE_URL,
     routes,
 });
