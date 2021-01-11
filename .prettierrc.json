@@ -1,0 +1,10 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "endOfLine": "lf",
+    "singleQuote": false,
+    "semi": true,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "htmlWhitespaceSensitivity": "ignore"
+}
